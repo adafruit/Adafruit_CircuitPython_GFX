@@ -292,7 +292,7 @@ class GFX:
             y = radius
             self.vline(x0 - radius, y0, height - 2*radius +1,*args, **kwargs)#left
             self.vline(x0 + width - radius, y0, height - 2*radius +1, *args, **kwargs)#right
-            self.hline(x0, y0  + height - radius, width - 2*radius +1, *args, **kwargs)#bottom 
+            self.hline(x0, y0  + height - radius +1, width - 2*radius +1, *args, **kwargs)#bottom 
             self.hline(x0, y0 - radius, width - 2*radius +1, *args, **kwargs)#top 
             while x < y:
                 if f >= 0:
@@ -323,11 +323,12 @@ class GFX:
         #shift to correct for start point location
         x0 += radius
         y0 += radius
+         
         
         #ensure that the radius will only ever half of the shortest side or less
         radius = int(min(radius,width/2,height/2))
         
-        self.fill_rect(x0, y0 - radius, width - 2*radius + 1, height + 2, *args, **kwargs)
+        self.fill_rect(x0, y0 - radius, width - 2*radius + 2, height + 2, *args, **kwargs)
         
         if radius:
             f = 1 - radius

@@ -59,12 +59,12 @@ class GFX:
                   any number of optional color or other parameters.
 
     """
-    def __init__(self, width, height, pixel, hline=None, vline=None):
+    def __init__(self, width, height, pixel, hline=None, vline=None, full_rect=None):
         # pylint: disable=too-many-arguments
         self.width = width
         self.height = height
         self._pixel = pixel
-        # Default to slow horizontal & vertical line implementations if no
+        # Default to slow horizontal & vertical line + full_rect implementations if no
         # faster versions are provided.
         if hline is None:
             self.hline = self._slow_hline
@@ -74,6 +74,10 @@ class GFX:
             self.vline = self._slow_vline
         else:
             self.vline = vline
+        if full_rect is None:
+            self.full_rect = self._full_rect()
+        else:
+            self.full_rect = full_rect
 
     def _slow_hline(self, x0, y0, width, *args, **kwargs):
         """Slow implementation of a horizontal line using pixel drawing.
@@ -104,7 +108,7 @@ class GFX:
         self.vline(x0, y0, height, *args, **kwargs)
         self.vline(x0+width-1, y0, height, *args, **kwargs)
 
-    def fill_rect(self, x0, y0, width, height, *args, **kwargs):
+    def _fill_rect(self, x0, y0, width, height, *args, **kwargs):
         """Filled rectangle drawing function.  Will draw a single pixel wide
         rectangle starting in the upper left x0, y0 position and width, height
         pixels in size."""

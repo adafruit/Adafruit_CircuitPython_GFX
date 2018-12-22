@@ -273,45 +273,80 @@ class GFX:
                 a, b = b, a
             self.hline(a, y, b-a+1, *args, **kwargs)
             y += 1
-    def round_rect(self,x0,y0,width,height,radius, *args, **kwargs):
-        """Rectangle with rounded corners drawing function. will draw the outline of a rextabgle with rounded corners with (x0,y0) at the top left"""
+    def round_rect(self,x0,y0,width,height,radius = 0, *args, **kwargs):
+        """Rectangle with rounded corners drawing function.
+        This works like a regular rect though! if radius = 0
+        Will draw the outline of a rextabgle with rounded corners with (x0,y0) at the top left"""
+        #shift to correct for start point location
+        x0 += radius
+        y0 += radius
+        
         #ensure that the radius will only ever half of the shortest side or less
         radius = int(min(radius,width/2,height/2))
         
-        f = 1 - radius
-        ddF_x = 1
-        ddF_y = -2 * radius
-        x = 0
-        y = radius
-        self.vline(x0 - radius, y0, height - 2*radius +1,*args, **kwargs)#left
-        self.vline(x0 + width - radius, y0, height - 2*radius +1, *args, **kwargs)#right
-        self.hline(x0, y0  + height - radius, width - 2*radius +1, *args, **kwargs)#bottom 
-        self.hline(x0, y0 - radius, width - 2*radius +1, *args, **kwargs)#top 
-        self._pixel(x0, y0  + height - radius, *args, **kwargs)#bottom 
-        self._pixel(x0, y0 - radius, *args, **kwargs)#top 
-        #self._pixel(x0 + width - radius, y0, *args, **kwargs)#right
-        #self._pixel(x0 - radius, y0, *args, **kwargs)#left
-        while x < y:
-            if f >= 0:
-                y -= 1
-                ddF_y += 2
-                f += ddF_y
-            x += 1
-            ddF_x += 2
-            f += ddF_x
-            #angle notations are based on the unit circle and in diection of being drawn (like in calculus and precalc )
+        if radius:
+            f = 1 - radius
+            ddF_x = 1
+            ddF_y = -2 * radius
+            x = 0
+            y = radius
+            self.vline(x0 - radius, y0, height - 2*radius +1,*args, **kwargs)#left
+            self.vline(x0 + width - radius, y0, height - 2*radius +1, *args, **kwargs)#right
+            self.hline(x0, y0  + height - radius, width - 2*radius +1, *args, **kwargs)#bottom 
+            self.hline(x0, y0 - radius, width - 2*radius +1, *args, **kwargs)#top 
+            while x < y:
+                if f >= 0:
+                    y -= 1
+                    ddF_y += 2
+                    f += ddF_y
+                x += 1
+                ddF_x += 2
+                f += ddF_x
+                #angle notations are based on the unit circle and in diection of being drawn (like in calculus and precalc )
+                
+                #top left
+                self._pixel(x0 - y, y0 - x, *args, **kwargs)#180 to 135
+                self._pixel(x0 - x, y0 - y, *args, **kwargs)#90 to 135
+                #top right
+                self._pixel(x0 + x + width - 2*radius, y0 - y, *args, **kwargs)#90 to 45
+                self._pixel(x0 + y + width - 2*radius, y0 - x, *args, **kwargs)#0 to 45
+                #bottom right
+                self._pixel(x0 + y + width - 2*radius, y0 + x + height - 2*radius, *args, **kwargs)#0 to 315
+                self._pixel(x0 + x + width - 2*radius, y0 + y + height - 2*radius, *args, **kwargs)# 270 to 315
+                #bottom left
+                self._pixel(x0 - x, y0 + y + height - 2*radius, *args, **kwargs)#270 to 255
+                self._pixel(x0 - y, y0 + x + height - 2*radius, *args, **kwargs)#180 to 225
             
-            #top left
-            self._pixel(x0 - y, y0 - x, *args, **kwargs)#180 to 135
-            self._pixel(x0 - x, y0 - y, *args, **kwargs)#90 to 135
-            #top right
-            self._pixel(x0 + x + width - 2*radius, y0 - y, *args, **kwargs)#90 to 45
-            self._pixel(x0 + y + width - 2*radius, y0 - x, *args, **kwargs)#0 to 45
-            #bottom right
-            self._pixel(x0 + y + width - 2*radius, y0 + x + height - 2*radius, *args, **kwargs)#0 to 315
-            self._pixel(x0 + x + width - 2*radius, y0 + y + height - 2*radius, *args, **kwargs)# 270 to 315
-            #bottom left
-            self._pixel(x0 - x, y0 + y + height - 2*radius, *args, **kwargs)#270 to 255
-            self._pixel(x0 - y, y0 + x + height - 2*radius, *args, **kwargs)#180 to 225
-            
-            
+    def fill_round_rect(self, x0, y0, width, height, radius, *args, **kwargs):
+        """Filled circle drawing function.  Will draw a filled circule with
+        center at x0, y0 and the specified radius."""
+        #shift to correct for start point location
+        x0 += radius
+        y0 += radius
+        
+        #ensure that the radius will only ever half of the shortest side or less
+        radius = int(min(radius,width/2,height/2))
+        
+        self.fill_rect(x0, y0 - radius, width - 2*radius + 1, height + 2, *args, **kwargs)
+        
+        if radius:
+            f = 1 - radius
+            ddF_x = 1
+            ddF_y = -2 * radius
+            x = 0
+            y = radius
+            while x < y:
+                if f >= 0:
+                    y -= 1
+                    ddF_y += 2
+                    f += ddF_y
+                x += 1
+                ddF_x += 2
+                f += ddF_x
+                # part notation starts with 0 on left and 1 on right, and direction is noted
+                #top left
+                self.vline(x0 - y, y0 - x, 2*x + 1 + height - 2*radius, *args, **kwargs)#0 to .25
+                self.vline(x0 - x, y0 - y, 2*y + 1 + height - 2*radius, *args, **kwargs)#.5 to .25
+                #top right
+                self.vline(x0 + x + width - 2*radius, y0 - y, 2*y + 1 + height - 2*radius, *args, **kwargs)#.5 to .75
+                self.vline(x0 + y + width - 2*radius, y0 - x, 2*x + 1 + height - 2*radius, *args, **kwargs)#1 to .75

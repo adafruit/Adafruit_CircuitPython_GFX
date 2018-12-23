@@ -82,25 +82,25 @@ class GFX:
         else:
             self.vline = vline
         
-        if text is None:
-            self.text = self._text
+        if fill_rect is None:
+            self.fill_rect = self._fill_rect
+        else:
+            self.fill_rect = fill_rect
             
-            #set font if they don't
-            if fill_rect is None:
-                self.fill_rect = self._fill_rect
+        if text is None:
+            self.text = self._very_slow_text
+            #if no supplied font set to std
+            if font is None:
+                try:
+                    self.font = std_font
+                except:
+                    raise RunTimeError('No font provided, please either include the default font or your own on __init__ of GFX')
             else:
-                self.fill_rect = fill_rect
+                self.font = font
         else:
             self.text = text
         
-        #if no supplied font set to std
-        if font is None:
-            try:
-                self.font = std_font
-            except:
-                raise RunTimeError('No font provided, please either include the default font or your own on __init__ of GFX')
-        else:
-            self.font = font
+        
 
     def _slow_hline(self, x0, y0, width, *args, **kwargs):
         """Slow implementation of a horizontal line using pixel drawing.
@@ -375,23 +375,20 @@ class GFX:
                 self.vline(x0 + x + width - 2*radius, y0 - y, 2*y + 1 + height - 2*radius, *args, **kwargs)#.5 to .75
                 self.vline(x0 + y + width - 2*radius, y0 - x, 2*x + 1 + height - 2*radius, *args, **kwargs)#1 to .75
     
-    def _scale_array(self,array,width,height,factor):
-        return array
-    
     def _place_char(self,x0,y0,char,size, *args, **kwargs):
         #print('in_place: ', char.upper())
         arr = self.font[char]
         width = arr[0]
         height = arr[1]
-        data = self._scale_array(arr[2:],width, height, size)
+        data = arr[2:]
         for x in range(width):
             for y in range(height):
                 bit = bool( data[x] & 2**y)
                 if bit:
-                    self._pixel(x+x0,7-y+y0,*args,**kwargs)
+                    self.fill_rect(size*x+x0,size*(7-y)+y0,size,size,*args,**kwargs)
         del arr, width, height, data, x, y, x0, y0, char, size
     
-    def _text(self,x0,y0,string,size, *args, **kwargs): 
+    def _very_slow_text(self,x0,y0,string,size, *args, **kwargs): 
         """a function to place text on the display
         letter format:
         { 'character_here' : bytearray(b',WIDTH,HEIGHT,right-most-data,more-bytes-here,left-most-data') ,} (replace the "," with backslashes!!)
@@ -403,8 +400,6 @@ class GFX:
                   | top most bit (highest on display)"""
         #FIXME: should text wrapping happen or should spill over edge of screen? some of the wrapping is started but commented out 
         
-        
-        
         x_roll = x0 #rolling x 
         y_roll = y0 #rolling y
         
@@ -415,7 +410,7 @@ class GFX:
             #print(chunk)
             try:
                 self._place_char(x_roll,y_roll,chunk,size,*args,**kwargs)
-                x_roll += size*self.font[chunk][0] + 1
+                x_roll += size*self.font[chunk][0] + size
                         #highest_height = max(highest_height, size*self.font[chunk][1] + 1) #wrap
             except:
                 while len(chunk):
@@ -428,19 +423,10 @@ class GFX:
                         self._place_char(x_roll,y_roll,'?CHAR?',size,*args,**kwargs)
                         char = '?CHAR?'
                     
-                    x_roll += size*self.font[char][0] + 1
+                    x_roll += size*self.font[char][0] + size
                             #highest_height = max(highest_height, size*self.font[char][1] + 1) #wrap
                     chunk = chunk[1:] #wrap
                         #if (x_roll >= self.width) or (chunk[0:2] == """\n"""): #wrap
                             #self._text(x0,y0+highest_height,"__".join(sep_string),size) #wrap
                         #print(highest_height) #wrap
                         
-            
-                
-        
-        '''for x in range(width)
-        for y in range(height)
-            bit = bool( data[x] & 2**y)
-            #print(bit)
-            disp.pixel(x,7-y,bit*color(255,255,255))'''
-        

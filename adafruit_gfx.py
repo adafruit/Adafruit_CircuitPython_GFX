@@ -389,7 +389,8 @@ class GFX:
         del arr, width, height, data, x, y, x0, y0, char, size
     
     def _very_slow_text(self,x0,y0,string,size, *args, **kwargs): 
-        """a function to place text on the display
+        """a function to place text on the display.(temporary)
+        to use special characters put "__" on either side of the desired characters.
         letter format:
         { 'character_here' : bytearray(b',WIDTH,HEIGHT,right-most-data,more-bytes-here,left-most-data') ,} (replace the "," with backslashes!!)
         each byte:

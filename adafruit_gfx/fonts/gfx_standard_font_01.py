@@ -47,7 +47,9 @@ letter format:
       ^c
       | top most bit (highest on display)
 Key format:
-    keys of one length only represent one character. longer then one is either extended characters or special characters
+    keys of one length only represent one character. longer then one is either extended characters or special characters like the degree sign.
+    all extended or special charaters have all capitalized keys.
+    "?CHAR?" is used when an input character is not in the font dictionary
 """
 text_dict = {
 'A' : bytearray(b'\x05\x08?DDD?') ,

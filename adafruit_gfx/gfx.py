@@ -25,7 +25,7 @@
 
 CircuitPython pixel graphics drawing library.
 
-* Author(s): Kattni Rembor, Tony DiCola, based on code by Phil Burgess
+* Author(s): Kattni Rembor, Tony DiCola, Jonah Yolles-Murphy, based on code by Phil Burgess
 
 Implementation Notes
 --------------------
@@ -38,11 +38,6 @@ Implementation Notes
   https://github.com/adafruit/circuitpython/releases
 
 """
-
-try:
-    from TGFONT01 import text_dict as std_font
-except:
-    pass
 
 __version__ = "0.0.0-auto.0"
 __repo__ = "https://github.com/adafruit/Adafruit_CircuitPython_GFX.git"
@@ -62,6 +57,11 @@ class GFX:
     :param vline: A function to quickly draw a vertical line on the display.
                   This should take at least an x, y, and height paraemter and
                   any number of optional color or other parameters.
+    :param fill_rect: A funtion to quickly draw a solid rectangle with four
+                  input parameters: x,y, width, and height. Any number of other
+                  parameters for color or screen specific data.
+    :param text: A function to quickly place text on the screen. The inputs include:
+                  x, y data(top left as starting point),
 
     """
     def __init__(self, width, height, pixel, hline=None, vline=None, fill_rect  = None, text = None, font = None):
@@ -91,16 +91,12 @@ class GFX:
             self.text = self._very_slow_text
             #if no supplied font set to std
             if font is None:
-                try:
-                    self.font = std_font
-                except:
-                    raise RunTimeError('No font provided, please either include the default font or your own on __init__ of GFX')
+                from adafruit_gfx.fonts.gfx_standard_font_01 import text_dict as std_font
+                self.font = std_font
             else:
                 self.font = font
         else:
             self.text = text
-        
-        
 
     def _slow_hline(self, x0, y0, width, *args, **kwargs):
         """Slow implementation of a horizontal line using pixel drawing.

@@ -96,6 +96,11 @@ class GFX:
         else:
             self.text = text
 
+    def pixel(self, x0, y0, *args, **kwargs):
+        """A function to pass through in input pixel functionality."""
+        #This was added to mainitatn the abstrtion between gfx and the dislay library
+        self._pixel(x0, y0, *args, **kwargs)
+
     def _slow_hline(self, x0, y0, width, *args, **kwargs):
         """Slow implementation of a horizontal line using pixel drawing.
         This is used as the default horizontal line if no faster override

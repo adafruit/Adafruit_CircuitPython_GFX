@@ -576,6 +576,6 @@ for i in text_dict:
         
         out[str(i)] = arr
         #print('    '+ "'"+str(i)+"'", ':', arr, ',')
-    except: print('skipped: '+i)
+    except: pass#print('skipped: '+i)
 for i in out:
     print("'"+str(i)+"'", ':', out[i], ',')

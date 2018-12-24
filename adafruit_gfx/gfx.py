@@ -64,29 +64,27 @@ class GFX:
                   x, y data(top left as starting point),
 
     """
-    def __init__(self, width, height, pixel, hline=None, vline=None, fill_rect  = None, text = None, font = None):
+    # pylint: disable=too-many-arguments
+    def __init__(self, width, height, pixel, hline=None, vline=None, fill_rect=None,
+                 text=None, font=None):
         # pylint: disable=too-many-arguments
         self.width = width
         self.height = height
         self._pixel = pixel
         # Default to slow horizontal & vertical line implementations if no
         # faster versions are provided.
-        
         if hline is None:
             self.hline = self._slow_hline
         else:
             self.hline = hline
-            
         if vline is None:
             self.vline = self._slow_vline
         else:
             self.vline = vline
-        
         if fill_rect is None:
             self.fill_rect = self._fill_rect
         else:
             self.fill_rect = fill_rect
-            
         if text is None:
             self.text = self._very_slow_text
             #if no supplied font set to std
@@ -173,8 +171,8 @@ class GFX:
         ddF_y = -2 * radius
         x = 0
         y = radius
-        self._pixel(x0, y0 + radius, *args, **kwargs)#bottom 
-        self._pixel(x0, y0 - radius, *args, **kwargs)#top 
+        self._pixel(x0, y0 + radius, *args, **kwargs)#bottom
+        self._pixel(x0, y0 - radius, *args, **kwargs)#top
         self._pixel(x0 + radius, y0, *args, **kwargs)#right
         self._pixel(x0 - radius, y0, *args, **kwargs)#left
         while x < y:
@@ -185,7 +183,7 @@ class GFX:
             x += 1
             ddF_x += 2
             f += ddF_x
-            #angle notations are based on the unit circle and in diection of being drawn (like in calculus and precalc )
+            #angle notations are based on the unit circle and in diection of being drawn
             self._pixel(x0 + x, y0 + y, *args, **kwargs)# 270 to 315
             self._pixel(x0 - x, y0 + y, *args, **kwargs)#270 to 255
             self._pixel(x0 + x, y0 - y, *args, **kwargs)#90 to 45
@@ -292,27 +290,28 @@ class GFX:
                 a, b = b, a
             self.hline(a, y, b-a+1, *args, **kwargs)
             y += 1
-    def round_rect(self,x0,y0,width,height,radius = 0, *args, **kwargs):
+
+    def round_rect(self, x0, y0, width, height, radius, *args, **kwargs):
         """Rectangle with rounded corners drawing function.
         This works like a regular rect though! if radius = 0
         Will draw the outline of a rextabgle with rounded corners with (x0,y0) at the top left"""
         #shift to correct for start point location
         x0 += radius
         y0 += radius
-        
+
         #ensure that the radius will only ever half of the shortest side or less
-        radius = int(min(radius,width/2,height/2))
-        
+        radius = int(min(radius, width/2, height/2))
+
         if radius:
             f = 1 - radius
             ddF_x = 1
             ddF_y = -2 * radius
             x = 0
             y = radius
-            self.vline(x0 - radius, y0, height - 2*radius +1,*args, **kwargs)#left
+            self.vline(x0 - radius, y0, height - 2*radius +1, *args, **kwargs)#left
             self.vline(x0 + width - radius, y0, height - 2*radius +1, *args, **kwargs)#right
-            self.hline(x0, y0  + height - radius +1, width - 2*radius +1, *args, **kwargs)#bottom 
-            self.hline(x0, y0 - radius, width - 2*radius +1, *args, **kwargs)#top 
+            self.hline(x0, y0  + height - radius +1, width - 2*radius +1, *args, **kwargs)#bottom
+            self.hline(x0, y0 - radius, width - 2*radius +1, *args, **kwargs)#top
             while x < y:
                 if f >= 0:
                     y -= 1
@@ -321,8 +320,8 @@ class GFX:
                 x += 1
                 ddF_x += 2
                 f += ddF_x
-                #angle notations are based on the unit circle and in diection of being drawn (like in calculus and precalc )
-                
+                #angle notations are based on the unit circle and in diection of being drawn
+
                 #top left
                 self._pixel(x0 - y, y0 - x, *args, **kwargs)#180 to 135
                 self._pixel(x0 - x, y0 - y, *args, **kwargs)#90 to 135
@@ -330,25 +329,27 @@ class GFX:
                 self._pixel(x0 + x + width - 2*radius, y0 - y, *args, **kwargs)#90 to 45
                 self._pixel(x0 + y + width - 2*radius, y0 - x, *args, **kwargs)#0 to 45
                 #bottom right
-                self._pixel(x0 + y + width - 2*radius, y0 + x + height - 2*radius, *args, **kwargs)#0 to 315
-                self._pixel(x0 + x + width - 2*radius, y0 + y + height - 2*radius, *args, **kwargs)# 270 to 315
+                self._pixel(x0 + y + width - 2*radius,
+                            y0 + x + height - 2*radius, *args, **kwargs)#0 to 315
+                self._pixel(x0 + x + width - 2*radius,
+                            y0 + y + height - 2*radius, *args, **kwargs)# 270 to 315
                 #bottom left
                 self._pixel(x0 - x, y0 + y + height - 2*radius, *args, **kwargs)#270 to 255
                 self._pixel(x0 - y, y0 + x + height - 2*radius, *args, **kwargs)#180 to 225
-            
+
     def fill_round_rect(self, x0, y0, width, height, radius, *args, **kwargs):
         """Filled circle drawing function.  Will draw a filled circule with
         center at x0, y0 and the specified radius."""
         #shift to correct for start point location
         x0 += radius
         y0 += radius
-         
-        
+
+
         #ensure that the radius will only ever half of the shortest side or less
-        radius = int(min(radius,width/2,height/2))
-        
+        radius = int(min(radius, width/2, height/2))
+
         self.fill_rect(x0, y0 - radius, width - 2*radius + 2, height + 2, *args, **kwargs)
-        
+
         if radius:
             f = 1 - radius
             ddF_x = 1
@@ -368,10 +369,12 @@ class GFX:
                 self.vline(x0 - y, y0 - x, 2*x + 1 + height - 2*radius, *args, **kwargs)#0 to .25
                 self.vline(x0 - x, y0 - y, 2*y + 1 + height - 2*radius, *args, **kwargs)#.5 to .25
                 #top right
-                self.vline(x0 + x + width - 2*radius, y0 - y, 2*y + 1 + height - 2*radius, *args, **kwargs)#.5 to .75
-                self.vline(x0 + y + width - 2*radius, y0 - x, 2*x + 1 + height - 2*radius, *args, **kwargs)#1 to .75
-    
-    def _place_char(self,x0,y0,char,size, *args, **kwargs):
+                self.vline(x0 + x + width - 2*radius, y0 - y,
+                           2*y + 1 + height - 2*radius, *args, **kwargs)#.5 to .75
+                self.vline(x0 + y + width - 2*radius, y0 - x,
+                           2*x + 1 + height - 2*radius, *args, **kwargs)#1 to .75
+
+    def _place_char(self, x0, y0, char, size, *args, **kwargs):
         #print('in_place: ', char.upper())
         arr = self.font[char]
         width = arr[0]
@@ -379,51 +382,53 @@ class GFX:
         data = arr[2:]
         for x in range(width):
             for y in range(height):
-                bit = bool( data[x] & 2**y)
+                bit = bool(data[x] & 2**y)
                 if bit:
-                    self.fill_rect(size*x+x0,size*(7-y)+y0,size,size,*args,**kwargs)
+                    self.fill_rect(size*x+x0, size*(7-y)+y0, size, size, *args, **kwargs)
         del arr, width, height, data, x, y, x0, y0, char, size
-    
-    def _very_slow_text(self,x0,y0,string,size, *args, **kwargs): 
+
+    def _very_slow_text(self, x0, y0, string, size, *args, **kwargs):
         """a function to place text on the display.(temporary)
         to use special characters put "__" on either side of the desired characters.
         letter format:
-        { 'character_here' : bytearray(b',WIDTH,HEIGHT,right-most-data,more-bytes-here,left-most-data') ,} (replace the "," with backslashes!!)
+        {'character_here' : bytearray(b',WIDTH,HEIGHT,right-most-data,more-bytes-here,left-most-data') ,}
+        (replace the "," with backslashes!!)
         each byte:
                         | lower most bit(lowest on display)
                         V
                  x0110100
                   ^c
                   | top most bit (highest on display)"""
-        #FIXME: should text wrapping happen or should spill over edge of screen? some of the wrapping is started but commented out 
-        
-        x_roll = x0 #rolling x 
+        #FIXME: should text wrapping happen or should spill over edge of screen?
+        #some of the wrapping is started but commented out
+
+        x_roll = x0 #rolling x
         y_roll = y0 #rolling y
-        
-        highest_height = 0
+
+        #highest_height = 0#wrap
         sep_string = string.split('__')
-        
+
         for chunk in sep_string:
             #print(chunk)
             try:
-                self._place_char(x_roll,y_roll,chunk,size,*args,**kwargs)
+                self._place_char(x_roll, y_roll, chunk, size, *args, **kwargs)
                 x_roll += size*self.font[chunk][0] + size
                         #highest_height = max(highest_height, size*self.font[chunk][1] + 1) #wrap
-            except:
-                while len(chunk):
+            except KeyError:
+                while chunk:
                     char = chunk[0]
-                    
+
                     #make sure something is sent even if not in font dict
                     try:
-                        self._place_char(x_roll,y_roll,char,size,*args,**kwargs)
-                    except:
-                        self._place_char(x_roll,y_roll,'?CHAR?',size,*args,**kwargs)
+                        self._place_char(x_roll, y_roll, char, size, *args, **kwargs)
+                    except KeyError:
+                        self._place_char(x_roll, y_roll, '?CHAR?', size, *args, **kwargs)
                         char = '?CHAR?'
-                    
+
                     x_roll += size*self.font[char][0] + size
                             #highest_height = max(highest_height, size*self.font[char][1] + 1) #wrap
                     chunk = chunk[1:] #wrap
                         #if (x_roll >= self.width) or (chunk[0:2] == """\n"""): #wrap
                             #self._text(x0,y0+highest_height,"__".join(sep_string),size) #wrap
                         #print(highest_height) #wrap
-                        
+    # pylint: enable=too-many-arguments

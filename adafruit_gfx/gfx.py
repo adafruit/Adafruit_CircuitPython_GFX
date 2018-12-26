@@ -61,8 +61,9 @@ class GFX:
                   input parameters: x,y, width, and height. Any number of other
                   parameters for color or screen specific data.
     :param text: A function to quickly place text on the screen. The inputs include:
-                  x, y data(top left as starting point),
-
+                  x, y data(top left as starting point).
+    :param font:  An optional input to augment the default text method with a new font.
+                  The input shoudl be a properly formatted dict.
     """
     # pylint: disable=too-many-arguments
     def __init__(self, width, height, pixel, hline=None, vline=None, fill_rect=None,
@@ -93,6 +94,10 @@ class GFX:
                 self.font = std_font
             else:
                 self.font = font
+                if not isinstance(self.font, self):
+                    #FIXME: should self.font or font be used? both work right?
+                    raise ValueError("Font definitions must be contained in a dictionary object.")
+
         else:
             self.text = text
 
@@ -348,7 +353,6 @@ class GFX:
         #shift to correct for start point location
         x0 += radius
         y0 += radius
-
 
         #ensure that the radius will only ever half of the shortest side or less
         radius = int(min(radius, width/2, height/2))

@@ -43,6 +43,7 @@ __version__ = "0.0.0-auto.0"
 __repo__ = "https://github.com/adafruit/Adafruit_CircuitPython_GFX.git"
 
 # pylint: disable=invalid-name
+# pylint: disable=too-many-attributes
 class GFX:
     """Create an instance of the GFX drawing class.
 
@@ -92,11 +93,13 @@ class GFX:
             if font is None:
                 from adafruit_gfx.fonts.gfx_standard_font_01 import text_dict as std_font
                 self.font = std_font
+                self.set_text_background()
             else:
                 self.font = font
                 if not isinstance(self.font, self):
                     #FIXME: should self.font or font be used? both work right?
                     raise ValueError("Font definitions must be contained in a dictionary object.")
+                del self.set_text_background
 
         else:
             self.text = text
@@ -388,12 +391,20 @@ class GFX:
         arr = self.font[char]
         width = arr[0]
         height = arr[1]
+        #extract the char section of the data
         data = arr[2:]
         for x in range(width):
             for y in range(height):
                 bit = bool(data[x] & 2**y)
+                #char pixel
                 if bit:
-                    self.fill_rect(size*x+x0, size*(7-y)+y0, size, size, *args, **kwargs)
+                    self.fill_rect(size*x+x0, size*(height-y)+y0, size, size, *args, **kwargs)
+                #else background pixel
+                else:
+                    try:
+                        self.fill_rect(size*x+x0, size*(height-y)+y0, size, size,
+                                       *self.text_bkgnd_args, **self.text_bkgnd_kwargs)
+                    except: pass
         del arr, width, height, data, x, y, x0, y0, char, size
 
     def _very_slow_text(self, x0, y0, string, size, *args, **kwargs):
@@ -440,4 +451,11 @@ class GFX:
                         #if (x_roll >= self.width) or (chunk[0:2] == """\n"""): #wrap
                             #self._text(x0,y0+highest_height,"__".join(sep_string),size) #wrap
                         #print(highest_height) #wrap
+    def set_text_background(self,*args,**kwargs):
+        """A method to change the background color of text, input any and all color paramsself.
+        run without any inputs to return to "clear" background
+        """
+        print(args, kwargs)
+        self.text_bkgnd_args = args
+        self.text_bkgnd_kwargs = kwargs
     # pylint: enable=too-many-arguments

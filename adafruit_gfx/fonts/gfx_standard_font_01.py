@@ -26,6 +26,7 @@
 CircuitPython pixel graphics drawing library.
 
 * Author(s): Jonah Yolles-Murphy
+
 Implementation Notes
 --------------------
 

@@ -20,7 +20,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 """
-`adafruit_gfx`
+`gfx`
 ====================================================
 
 CircuitPython pixel graphics drawing library.

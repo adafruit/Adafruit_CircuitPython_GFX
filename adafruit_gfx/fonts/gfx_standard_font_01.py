@@ -36,10 +36,10 @@ Implementation Notes
 * Adafruit CircuitPython firmware for the supported boards:
   https://github.com/adafruit/circuitpython/releases
 
-"""
-"""
 letter format:
-    { 'character_here' : bytearray(b',WIDTH,HEIGHT,right-most-data,more-bytes-here,left-most-data') ,} (replace the "," with backslashes!!)
+    { 'character_here' : bytearray(b',WIDTH,HEIGHT,right-most-data,
+                                        more-bytes-here,left-most-data') ,}
+            (replace the "," with backslashes!!)
     each byte:
             | lower most bit(lowest on display)
             V
@@ -52,6 +52,7 @@ Key format:
     all extended or special charaters have all capitalized keys.
     "?CHAR?" is used when an input character is not in the font dictionary
 """
+# pylint: disable=invalid-name
 text_dict = {
     'A' : bytearray(b'\x05\x07?DDD?'),
     'B' : bytearray(b'\x05\x07\x7fAII6'),

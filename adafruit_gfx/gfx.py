@@ -43,8 +43,8 @@ __version__ = "0.0.0-auto.0"
 __repo__ = "https://github.com/adafruit/Adafruit_CircuitPython_GFX.git"
 
 # pylint: disable=invalid-name
-# pylint: disable=too-many-attributes
 class GFX:
+    # pylint: disable=too-many-instance-attributes
     """Create an instance of the GFX drawing class.
 
     :param width: The width of the drawing area in pixels.
@@ -69,7 +69,7 @@ class GFX:
     # pylint: disable=too-many-arguments
     def __init__(self, width, height, pixel, hline=None, vline=None, fill_rect=None,
                  text=None, font=None):
-        # pylint: disable=too-many-arguments
+        # pylint: disable=too-many-instance-attributes
         self.width = width
         self.height = height
         self._pixel = pixel
@@ -97,7 +97,6 @@ class GFX:
             else:
                 self.font = font
                 if not isinstance(self.font, self):
-                    #FIXME: should self.font or font be used? both work right?
                     raise ValueError("Font definitions must be contained in a dictionary object.")
                 del self.set_text_background
 
@@ -387,7 +386,8 @@ class GFX:
                            2*x + 1 + height - 2*radius, *args, **kwargs)#1 to .75
 
     def _place_char(self, x0, y0, char, size, *args, **kwargs):
-        #print('in_place: ', char.upper())
+        """A sub class used for placing a single character on the screen"""
+        # pylint: disable=undefined-loop-variable
         arr = self.font[char]
         width = arr[0]
         height = arr[1]
@@ -398,20 +398,23 @@ class GFX:
                 bit = bool(data[x] & 2**y)
                 #char pixel
                 if bit:
-                    self.fill_rect(size*x+x0, size*(height-y)+y0, size, size, *args, **kwargs)
+                    self.fill_rect(size*x+x0, size*(height-y-1)+y0, size, size, *args, **kwargs)
                 #else background pixel
                 else:
                     try:
-                        self.fill_rect(size*x+x0, size*(height-y)+y0, size, size,
+                        self.fill_rect(size*x+x0, size*(height-y-1)+y0, size, size,
                                        *self.text_bkgnd_args, **self.text_bkgnd_kwargs)
-                    except: pass
+                    except TypeError:
+                        pass
         del arr, width, height, data, x, y, x0, y0, char, size
 
     def _very_slow_text(self, x0, y0, string, size, *args, **kwargs):
         """a function to place text on the display.(temporary)
         to use special characters put "__" on either side of the desired characters.
         letter format:
-        {'character_here' : bytearray(b',WIDTH,HEIGHT,right-most-data,more-bytes-here,left-most-data') ,}
+        {'character_here' : bytearray(b',WIDTH,HEIGHT,right-most-data,
+                                            more-bytes-here,left-most-data') ,}
+
         (replace the "," with backslashes!!)
         each byte:
                         | lower most bit(lowest on display)
@@ -419,8 +422,6 @@ class GFX:
                  x0110100
                   ^c
                   | top most bit (highest on display)"""
-        #FIXME: should text wrapping happen or should spill over edge of screen?
-        #some of the wrapping is started but commented out
 
         x_roll = x0 #rolling x
         y_roll = y0 #rolling y
@@ -445,17 +446,25 @@ class GFX:
                         self._place_char(x_roll, y_roll, '?CHAR?', size, *args, **kwargs)
                         char = '?CHAR?'
 
-                    x_roll += size*self.font[char][0] + size
+                    x_roll += size*self.font[char][0]
+
+                    #gap between letters
+                    try:
+                        self.fill_rect(x_roll, y_roll, size, size*self.font[char][1],
+                                       *self.text_bkgnd_args, **self.text_bkgnd_kwargs)
+                    except TypeError:
+                        pass
+
+                    x_roll += size
                             #highest_height = max(highest_height, size*self.font[char][1] + 1) #wrap
                     chunk = chunk[1:] #wrap
                         #if (x_roll >= self.width) or (chunk[0:2] == """\n"""): #wrap
                             #self._text(x0,y0+highest_height,"__".join(sep_string),size) #wrap
                         #print(highest_height) #wrap
-    def set_text_background(self,*args,**kwargs):
+    def set_text_background(self, *args, **kwargs):
         """A method to change the background color of text, input any and all color paramsself.
         run without any inputs to return to "clear" background
         """
-        print(args, kwargs)
         self.text_bkgnd_args = args
         self.text_bkgnd_kwargs = kwargs
     # pylint: enable=too-many-arguments

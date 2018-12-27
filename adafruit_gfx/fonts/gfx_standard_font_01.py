@@ -40,12 +40,7 @@ Implementation Notes
 * letter format:
     { 'character_here' : bytearray(WIDTH,HEIGHT,right-most-data,more-bytes-here,left-most-data')}
             (replace the "," with backslashes!)
-    each byte:
-            | lower most bit(lowest on display)
-            V
-     x0110100
-      ^c
-      | top most bit (highest on display)
+    the right most bit is the top most bit of each vertical stripe of a char 
 * Key format:
     keys of one length only represent one character. longer then one is either
     extended characters or special characters like the degree sign.

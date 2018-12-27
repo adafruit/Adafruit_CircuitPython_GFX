@@ -37,7 +37,7 @@ Implementation Notes
 * Adafruit CircuitPython firmware for the supported boards:
   https://github.com/adafruit/circuitpython/releases
 
-*letter format:
+* letter format:
     { 'character_here' : bytearray(b',WIDTH,HEIGHT,right-most-data,
                                         more-bytes-here,left-most-data') ,}
             (replace the "," with backslashes!)
@@ -47,7 +47,7 @@ Implementation Notes
      x0110100
       ^c
       | top most bit (highest on display)
-*Key format:
+* Key format:
     keys of one length only represent one character. longer then one is either
     extended characters or special characters like the degree sign.
     all extended or special charaters have all capitalized keys.

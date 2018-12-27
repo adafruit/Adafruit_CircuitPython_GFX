@@ -38,8 +38,7 @@ Implementation Notes
   https://github.com/adafruit/circuitpython/releases
 
 * letter format:
-    { 'character_here' : bytearray(b',WIDTH,HEIGHT,right-most-data,
-                                        more-bytes-here,left-most-data') ,}
+    { 'character_here' : bytearray(WIDTH,HEIGHT,right-most-data,more-bytes-here,left-most-data')}
             (replace the "," with backslashes!)
     each byte:
             | lower most bit(lowest on display)

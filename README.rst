@@ -15,7 +15,7 @@ Introduction
 
 CircuitPython pixel graphics drawing library.
 
-Important: This library will likely be deprecated soon. If you are looking to use a specific screen, search the product name (i.e. ssd1322 or ili9341) `here <https://github.com/adafruit/>`_, or find it in the `circuitpython bundle <https://github.com/adafruit/Adafruit_CircuitPython_Bundle>`_.
+Important: This library will likely be deprecated soon. If you are looking to use a specific screen, search the product name (i.e. ssd1322 or ili9341) at `https://github.com/adafruit/ <https://github.com/adafruit/>`_, or find it in the `circuitpython bundle <https://github.com/adafruit/Adafruit_CircuitPython_Bundle>`_.
 
 Dependencies
 =============

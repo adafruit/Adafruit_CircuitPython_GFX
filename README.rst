@@ -15,6 +15,8 @@ Introduction
 
 CircuitPython pixel graphics drawing library.
 
+Important: This library will likely be deprecated soon. If you are looking to use a specific screen, search the product name (i.e. ssd1322 or ili9341) `here <https://github.com/adafruit/>`_, or find it in the `circuitpython bundle <https://github.com/adafruit/Adafruit_CircuitPython_Bundle>`_.
+
 Dependencies
 =============
 This driver depends on:
@@ -29,6 +31,8 @@ Usage Example
 =============
 
 See example in /examples/gfx_simpletest.py
+
+Most displays now use displayio. You can find simpletests for specific displays in their respective repositories or in the examples section of the `circuitpython bundle <https://github.com/adafruit/Adafruit_CircuitPython_Bundle>`_/
 
 Contributing
 ============

@@ -32,7 +32,7 @@ Usage Example
 
 See example in /examples/gfx_simpletest.py
 
-Most displays now use displayio. You can find simpletests for specific displays in their respective repositories or in the examples section of the `circuitpython bundle <https://github.com/adafruit/Adafruit_CircuitPython_Bundle>`_/
+Most displays now use displayio. You can find simpletests for specific displays in their respective repositories or in the examples section of the `circuitpython bundle <https://github.com/adafruit/Adafruit_CircuitPython_Bundle>`_
 
 Contributing
 ============

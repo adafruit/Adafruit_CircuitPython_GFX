@@ -9,8 +9,8 @@ Introduction
     :target: https://discord.gg/nBQh6qu
     :alt: Discord
 
-.. image:: https://travis-ci.com/adafruit/Adafruit_CircuitPython_GFX.svg?branch=master
-    :target: https://travis-ci.com/adafruit/Adafruit_CircuitPython_GFX
+.. image:: https://github.com/adafruit/Adafruit_CircuitPython_GFX/workflows/Build%20CI/badge.svg
+    :target: https://github.com/adafruit/Adafruit_CircuitPython_GFX/actions
     :alt: Build Status
 
 CircuitPython pixel graphics drawing library.

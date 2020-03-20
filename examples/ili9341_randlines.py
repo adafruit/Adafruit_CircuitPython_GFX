@@ -16,8 +16,10 @@ def randrange(min_value, max_value):
     # int values at most.
     magnitude = abs(max_value - min_value)
     randbytes = uos.urandom(4)
-    offset = int((randbytes[3] << 24) | (randbytes[2] << 16) | (randbytes[1] << 8) | randbytes[0])
-    offset %= (magnitude+1)  # Offset by one to allow max_value to be included.
+    offset = int(
+        (randbytes[3] << 24) | (randbytes[2] << 16) | (randbytes[1] << 8) | randbytes[0]
+    )
+    offset %= magnitude + 1  # Offset by one to allow max_value to be included.
     return min_value + offset
 
 
@@ -33,8 +35,10 @@ display = ili9341.ILI9341(spi, cs=machine.Pin(0), dc=machine.Pin(15))
 def fast_hline(x, y, width, color):
     display.fill_rectangle(x, y, width, 1, color)
 
+
 def fast_vline(x, y, height, color):
     display.fill_rectangle(x, y, 1, height, color)
+
 
 # Initialize the GFX library, giving it the display pixel function as its pixel
 # drawing primitive command.  The hline and vline parameters specify optional

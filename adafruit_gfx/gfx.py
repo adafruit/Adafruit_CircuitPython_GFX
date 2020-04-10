@@ -369,13 +369,13 @@ class GFX:
                     x0 + y + width - 2 * radius,
                     y0 + x + height - 2 * radius,
                     *args,
-                    **kwargs
+                    **kwargs,
                 )  # 0 to 315
                 self._pixel(
                     x0 + x + width - 2 * radius,
                     y0 + y + height - 2 * radius,
                     *args,
-                    **kwargs
+                    **kwargs,
                 )  # 270 to 315
                 # bottom left
                 self._pixel(
@@ -427,14 +427,14 @@ class GFX:
                     y0 - y,
                     2 * y + 1 + height - 2 * radius,
                     *args,
-                    **kwargs
+                    **kwargs,
                 )  # .5 to .75
                 self.vline(
                     x0 + y + width - 2 * radius,
                     y0 - x,
                     2 * x + 1 + height - 2 * radius,
                     *args,
-                    **kwargs
+                    **kwargs,
                 )  # 1 to .75
 
     def _place_char(self, x0, y0, char, size, *args, **kwargs):
@@ -456,7 +456,7 @@ class GFX:
                         size,
                         size,
                         *args,
-                        **kwargs
+                        **kwargs,
                     )
                 # else background pixel
                 else:
@@ -467,7 +467,7 @@ class GFX:
                             size,
                             size,
                             *self.text_bkgnd_args,
-                            **self.text_bkgnd_kwargs
+                            **self.text_bkgnd_kwargs,
                         )
                     except TypeError:
                         pass
@@ -523,7 +523,7 @@ class GFX:
                             size,
                             size * self.font[char][1],
                             *self.text_bkgnd_args,
-                            **self.text_bkgnd_kwargs
+                            **self.text_bkgnd_kwargs,
                         )
                     except TypeError:
                         pass

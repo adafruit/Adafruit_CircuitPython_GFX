@@ -108,7 +108,7 @@ class GFX:
                 self.set_text_background()
             else:
                 self.font = font
-                if not isinstance(self.font, self):
+                if not isinstance(self.font, dict):
                     raise ValueError(
                         "Font definitions must be contained in a dictionary object."
                     )

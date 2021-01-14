@@ -1,3 +1,6 @@
+# SPDX-FileCopyrightText: 2021 ladyada for Adafruit Industries
+# SPDX-License-Identifier: MIT
+
 # Random line drawing with ILI9341 TFT display.
 # This is made to work with ESP8266 MicroPython and the TFT FeatherWing, but
 # adjust the SPI and display initialization at the start to change boards.

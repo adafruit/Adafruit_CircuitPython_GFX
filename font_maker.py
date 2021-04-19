@@ -232,7 +232,7 @@ for i in text_dict:
 
         out[str(i)] = arr
         # print('    '+ "'"+str(i)+"'", ':', arr, ',')
-    except:
+    except:  # pylint: disable=bare-except
         pass  # print('skipped: '+i)
 for i in out:
     print("'" + str(i) + "'", ":", out[i], ",")

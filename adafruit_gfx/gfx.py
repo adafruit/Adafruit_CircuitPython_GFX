@@ -41,13 +41,13 @@ class GFX:
     :param vline: A function to quickly draw a vertical line on the display.
                   This should take at least an x, y, and height paraemter and
                   any number of optional color or other parameters.
-    :param fill_rect: A funtion to quickly draw a solid rectangle with four
+    :param fill_rect: A function to quickly draw a solid rectangle with four
                   input parameters: x,y, width, and height. Any number of other
                   parameters for color or screen specific data.
     :param text: A function to quickly place text on the screen. The inputs include:
                   x, y data(top left as starting point).
-    :param font:  An optional input to augment the default text method with a new font.
-                  The input shoudl be a properly formatted dict.
+    :param font: An optional input to augment the default text method with a new font.
+                  The input should be a properly formatted dict.
     """
     # pylint: disable=too-many-arguments
     def __init__(
@@ -102,7 +102,7 @@ class GFX:
 
     def pixel(self, x0, y0, *args, **kwargs):
         """A function to pass through in input pixel functionality."""
-        # This was added to mainitatn the abstrtion between gfx and the dislay library
+        # This was added to mainitatn the abstraction between gfx and the dislay library
         self._pixel(x0, y0, *args, **kwargs)
 
     def _slow_hline(self, x0, y0, width, *args, **kwargs):
@@ -203,7 +203,7 @@ class GFX:
             self._pixel(x0 - y, y0 - x, *args, **kwargs)  # 180 to 135
 
     def fill_circle(self, x0, y0, radius, *args, **kwargs):
-        """Filled circle drawing function.  Will draw a filled circule with
+        """Filled circle drawing function.  Will draw a filled circle with
         center at x0, y0 and the specified radius."""
         self.vline(x0, y0 - radius, 2 * radius + 1, *args, **kwargs)
         f = 1 - radius
@@ -303,7 +303,7 @@ class GFX:
     def round_rect(self, x0, y0, width, height, radius, *args, **kwargs):
         """Rectangle with rounded corners drawing function.
         This works like a regular rect though! if radius = 0
-        Will draw the outline of a rextabgle with rounded corners with (x0,y0) at the top left"""
+        Will draw the outline of a rectangle with rounded corners with (x0,y0) at the top left"""
         # shift to correct for start point location
         x0 += radius
         y0 += radius
@@ -369,7 +369,7 @@ class GFX:
                 )  # 180 to 225
 
     def fill_round_rect(self, x0, y0, width, height, radius, *args, **kwargs):
-        """Filled circle drawing function.  Will draw a filled circule with
+        """Filled circle drawing function.  Will draw a filled circle with
         center at x0, y0 and the specified radius."""
         # shift to correct for start point location
         x0 += radius
@@ -457,7 +457,7 @@ class GFX:
         del arr, width, height, data, x, y, x0, y0, char, size
 
     def _very_slow_text(self, x0, y0, string, size, *args, **kwargs):
-        """a function to place text on the display.(temporary)
+        """A function to place text on the display.(temporary)
         to use special characters put "__" on either side of the desired characters.
         letter format:
         {'character_here' : bytearray(b',WIDTH,HEIGHT,right-most-data,
@@ -519,8 +519,8 @@ class GFX:
                     # print(highest_height) #wrap
 
     def set_text_background(self, *args, **kwargs):
-        """A method to change the background color of text, input any and all color paramsself.
-        run without any inputs to return to "clear" background
+        """A function to change the background color of text, input any and all color params.
+        Run without any inputs to return to "clear" background
         """
         self.text_bkgnd_args = args
         self.text_bkgnd_kwargs = kwargs

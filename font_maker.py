@@ -201,7 +201,6 @@ text_dict = {
         0b10011100,
     ),  # 11
     "__FULL__": (0b11111111, 0b11111111, 0b11111111, 0b11111111, 0b11111111),
-    "BLANK": (0b10000000, 0b10000000, 0b10000000, 0b10000000, 0b10000000),
     """
 """: (
         0b10000000,  # this is the enter / paragraph character
@@ -233,7 +232,7 @@ for i in text_dict:
 
         out[str(i)] = arr
         # print('    '+ "'"+str(i)+"'", ':', arr, ',')
-    except:
+    except:  # pylint: disable=bare-except
         pass  # print('skipped: '+i)
 for i in out:
     print("'" + str(i) + "'", ":", out[i], ",")

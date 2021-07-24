@@ -276,7 +276,7 @@ class GFX:
             dy12 = 1
         sa = 0
         sb = 0
-        if y1 == y2:
+        if y1 == y2 or y0 == y1:
             last = y1
         else:
             last = y1 - 1

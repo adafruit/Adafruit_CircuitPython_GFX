@@ -215,24 +215,24 @@ text_dict = {
 
 out = {}
 
-for i in text_dict:
+for key, val in text_dict.items():
     # print (i)
     try:
 
         # print(text_dict[i])
-        print((2 + (len(text_dict[i]))))
-        arr = bytearray(2 + (len(text_dict[i])))
+        print((2 + (len(val))))
+        arr = bytearray(2 + (len(val)))
 
-        arr[0] = len(text_dict[i])
+        arr[0] = len(val)
         arr[1] = 8
 
-        for j in range(len(text_dict[i])):
+        for j in range(len(text_dict[key])):
 
-            arr[j + 2] = text_dict[i][j] & 0b01111111
+            arr[j + 2] = text_dict[key][j] & 0b01111111
 
-        out[str(i)] = arr
+        out[str(key)] = arr
         # print('    '+ "'"+str(i)+"'", ':', arr, ',')
     except:  # pylint: disable=bare-except
         pass  # print('skipped: '+i)
-for i in out:
-    print("'" + str(i) + "'", ":", out[i], ",")
+for key, val in out.items():
+    print("'" + str(key) + "'", ":", val, ",")

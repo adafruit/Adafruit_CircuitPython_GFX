@@ -430,7 +430,7 @@ class GFX:
         data = arr[2:]
         for x in range(width):
             for y in range(height):
-                bit = bool(data[x] & 2 ** y)
+                bit = bool(data[x] & 2**y)
                 # char pixel
                 if bit:
                     self.fill_rect(

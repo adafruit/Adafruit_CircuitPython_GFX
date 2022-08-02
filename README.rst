@@ -13,6 +13,10 @@ Introduction
     :target: https://github.com/adafruit/Adafruit_CircuitPython_GFX/actions
     :alt: Build Status
 
+.. image:: https://img.shields.io/badge/code%20style-black-000000.svg
+    :target: https://github.com/psf/black
+    :alt: Code Style: Black
+
 CircuitPython pixel graphics drawing library.
 
 Important: This library will likely be deprecated soon. If you are looking to use a specific display, search the product name (i.e. ssd1322 or ili9341) at `https://github.com/adafruit/ <https://github.com/adafruit/>`_, or find it in the `circuitpython bundle <https://github.com/adafruit/Adafruit_CircuitPython_Bundle>`_.

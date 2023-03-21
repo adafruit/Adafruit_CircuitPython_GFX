@@ -9,7 +9,9 @@
 a dictionary of bytes organised to create basic text, just the templates
 Author(s):Jonah Yolles-Murphy
 imspiration for base letter style from Ben Gelb"""
-__version__ = "1.0"
+
+__version__ = "0.0.0+auto.0"
+__repo__ = "https://github.com/adafruit/Adafruit_CircuitPython_GFX.git"
 
 
 text_dict = {

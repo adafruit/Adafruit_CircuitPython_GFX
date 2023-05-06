@@ -25,6 +25,7 @@ Implementation Notes
 __version__ = "0.0.0+auto.0"
 __repo__ = "https://github.com/adafruit/Adafruit_CircuitPython_GFX.git"
 
+
 # pylint: disable=invalid-name
 class GFX:
     # pylint: disable=too-many-instance-attributes
@@ -49,6 +50,7 @@ class GFX:
     :param font: An optional input to augment the default text method with a new font.
                   The input should be a properly formatted dict.
     """
+
     # pylint: disable=too-many-arguments
     def __init__(
         self,
@@ -280,7 +282,7 @@ class GFX:
             last = y1 - 1
         else:
             last = y1
-        while y <= last: 
+        while y <= last:
             a = x0 + sa // dy01
             b = x0 + sb // dy02
             sa += dx01
@@ -304,7 +306,8 @@ class GFX:
     def round_rect(self, x0, y0, width, height, radius, *args, **kwargs):
         """Rectangle with rounded corners drawing function.
         This works like a regular rect though! if radius = 0
-        Will draw the outline of a rectangle with rounded corners with (x0,y0) at the top left"""
+        Will draw the outline of a rectangle with rounded corners with (x0,y0) at the top left
+        """
         # shift to correct for start point location
         x0 += radius
         y0 += radius

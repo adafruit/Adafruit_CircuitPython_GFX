@@ -32,6 +32,7 @@ spi = machine.SPI(1, baudrate=32000000)
 # Setup ILI9341 display using TFT FeatherWing pinout for CS & DC pins.
 display = ili9341.ILI9341(spi, cs=machine.Pin(0), dc=machine.Pin(15))
 
+
 # Optionally create faster horizontal and vertical line drawing functions using
 # the display's native filled rectangle function (which updates chunks of memory
 # instead of pixel by pixel).

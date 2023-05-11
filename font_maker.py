@@ -220,7 +220,6 @@ out = {}
 for key, val in text_dict.items():
     # print (i)
     try:
-
         # print(text_dict[i])
         print((2 + (len(val))))
         arr = bytearray(2 + (len(val)))
@@ -229,7 +228,6 @@ for key, val in text_dict.items():
         arr[1] = 8
 
         for j in range(len(text_dict[key])):
-
             arr[j + 2] = text_dict[key][j] & 0b01111111
 
         out[str(key)] = arr

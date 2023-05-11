@@ -249,7 +249,6 @@ class GFX:
             x0, x1 = x1, x0
         a = 0
         b = 0
-        y = 0
         last = 0
         if y0 == y2:
             a = x0
@@ -278,11 +277,12 @@ class GFX:
             dy12 = 1
         sa = 0
         sb = 0
-        if y1 == y2 or y0 == y1:  # pylint: disable=consider-using-in
-            last = y1
-        else:
+        y = y0
+        if y0 == y1:
             last = y1 - 1
-        for y in range(y0, last + 1):
+        else:
+            last = y1
+        while y <= last:
             a = x0 + sa // dy01
             b = x0 + sb // dy02
             sa += dx01
@@ -290,6 +290,7 @@ class GFX:
             if a > b:
                 a, b = b, a
             self.hline(a, y, b - a + 1, *args, **kwargs)
+            y += 1
         sa = dx12 * (y - y1)
         sb = dx02 * (y - y0)
         while y <= y2:

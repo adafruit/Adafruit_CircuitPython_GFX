@@ -104,7 +104,7 @@ ignore = [
     "PLC2701", # private import
     "PLR0914", # too many local var
     "PLW2901", # loop var overwrite
-    "E722", # bare except 
+    "E722", # bare except
 ]
 
 [format]

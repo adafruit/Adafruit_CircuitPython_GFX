@@ -221,18 +221,18 @@ for key, val in text_dict.items():
     # print (i)
     try:
         # print(text_dict[i])
-        print((2 + (len(val))))
+        print(2 + (len(val)))
         arr = bytearray(2 + (len(val)))
 
         arr[0] = len(val)
         arr[1] = 8
 
-        for j in range(len(text_dict[key])):
+        for j in range(len(val)):
             arr[j + 2] = text_dict[key][j] & 0b01111111
 
         out[str(key)] = arr
         # print('    '+ "'"+str(i)+"'", ':', arr, ',')
-    except:  # pylint: disable=bare-except
+    except:
         pass  # print('skipped: '+i)
 for key, val in out.items():
     print("'" + str(key) + "'", ":", val, ",")

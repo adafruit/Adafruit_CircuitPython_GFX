@@ -30,7 +30,7 @@ Implementation Notes
     "?CHAR?" is used when an input character is not in the font dictionary
 
 """
-# pylint: disable=invalid-name
+
 text_dict = {
     "A": bytearray(b"\x05\x07?DDD?"),
     "B": bytearray(b"\x05\x07\x7fAII6"),

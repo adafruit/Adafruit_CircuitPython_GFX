@@ -26,9 +26,7 @@ __version__ = "0.0.0+auto.0"
 __repo__ = "https://github.com/adafruit/Adafruit_CircuitPython_GFX.git"
 
 
-# pylint: disable=invalid-name
 class GFX:
-    # pylint: disable=too-many-instance-attributes
     """Create an instance of the GFX drawing class.
 
     :param width: The width of the drawing area in pixels.
@@ -51,7 +49,6 @@ class GFX:
                   The input should be a properly formatted dict.
     """
 
-    # pylint: disable=too-many-arguments
     def __init__(
         self,
         width,
@@ -63,7 +60,6 @@ class GFX:
         text=None,
         font=None,
     ):
-        # pylint: disable=too-many-instance-attributes
         self.width = width
         self.height = height
         self._pixel = pixel
@@ -85,7 +81,7 @@ class GFX:
             self.text = self._very_slow_text
             # if no supplied font set to std
             if font is None:
-                from adafruit_gfx.fonts.gfx_standard_font_01 import (  # pylint: disable=import-outside-toplevel
+                from adafruit_gfx.fonts.gfx_standard_font_01 import (
                     text_dict as std_font,
                 )
 
@@ -94,9 +90,7 @@ class GFX:
             else:
                 self.font = font
                 if not isinstance(self.font, dict):
-                    raise ValueError(
-                        "Font definitions must be contained in a dictionary object."
-                    )
+                    raise ValueError("Font definitions must be contained in a dictionary object.")
                 del self.set_text_background
 
         else:
@@ -227,7 +221,6 @@ class GFX:
             self.vline(x0 - y, y0 - x, 2 * x + 1, *args, **kwargs)
 
     def triangle(self, x0, y0, x1, y1, x2, y2, *args, **kwargs):
-        # pylint: disable=too-many-arguments
         """Triangle drawing function.  Will draw a single pixel wide triangle
         around the points (x0, y0), (x1, y1), and (x2, y2)."""
         self.line(x0, y0, x1, y1, *args, **kwargs)
@@ -235,7 +228,6 @@ class GFX:
         self.line(x2, y2, x0, y0, *args, **kwargs)
 
     def fill_triangle(self, x0, y0, x1, y1, x2, y2, *args, **kwargs):
-        # pylint: disable=too-many-arguments, too-many-locals, too-many-statements, too-many-branches
         """Filled triangle drawing function.  Will draw a filled triangle around
         the points (x0, y0), (x1, y1), and (x2, y2)."""
         if y0 > y1:
@@ -321,12 +313,8 @@ class GFX:
             ddF_y = -2 * radius
             x = 0
             y = radius
-            self.vline(
-                x0 - radius, y0, height - 2 * radius + 1, *args, **kwargs
-            )  # left
-            self.vline(
-                x0 + width - radius, y0, height - 2 * radius + 1, *args, **kwargs
-            )  # right
+            self.vline(x0 - radius, y0, height - 2 * radius + 1, *args, **kwargs)  # left
+            self.vline(x0 + width - radius, y0, height - 2 * radius + 1, *args, **kwargs)  # right
             self.hline(
                 x0, y0 + height - radius + 1, width - 2 * radius + 1, *args, **kwargs
             )  # bottom
@@ -345,12 +333,8 @@ class GFX:
                 self._pixel(x0 - y, y0 - x, *args, **kwargs)  # 180 to 135
                 self._pixel(x0 - x, y0 - y, *args, **kwargs)  # 90 to 135
                 # top right
-                self._pixel(
-                    x0 + x + width - 2 * radius, y0 - y, *args, **kwargs
-                )  # 90 to 45
-                self._pixel(
-                    x0 + y + width - 2 * radius, y0 - x, *args, **kwargs
-                )  # 0 to 45
+                self._pixel(x0 + x + width - 2 * radius, y0 - y, *args, **kwargs)  # 90 to 45
+                self._pixel(x0 + y + width - 2 * radius, y0 - x, *args, **kwargs)  # 0 to 45
                 # bottom right
                 self._pixel(
                     x0 + y + width - 2 * radius,
@@ -365,12 +349,8 @@ class GFX:
                     **kwargs,
                 )  # 270 to 315
                 # bottom left
-                self._pixel(
-                    x0 - x, y0 + y + height - 2 * radius, *args, **kwargs
-                )  # 270 to 255
-                self._pixel(
-                    x0 - y, y0 + x + height - 2 * radius, *args, **kwargs
-                )  # 180 to 225
+                self._pixel(x0 - x, y0 + y + height - 2 * radius, *args, **kwargs)  # 270 to 255
+                self._pixel(x0 - y, y0 + x + height - 2 * radius, *args, **kwargs)  # 180 to 225
 
     def fill_round_rect(self, x0, y0, width, height, radius, *args, **kwargs):
         """Filled circle drawing function.  Will draw a filled circle with
@@ -382,9 +362,7 @@ class GFX:
         # ensure that the radius will only ever half of the shortest side or less
         radius = int(min(radius, width / 2, height / 2))
 
-        self.fill_rect(
-            x0, y0 - radius, width - 2 * radius + 2, height + 2, *args, **kwargs
-        )
+        self.fill_rect(x0, y0 - radius, width - 2 * radius + 2, height + 2, *args, **kwargs)
 
         if radius:
             f = 1 - radius
@@ -426,7 +404,6 @@ class GFX:
 
     def _place_char(self, x0, y0, char, size, *args, **kwargs):
         """A sub class used for placing a single character on the screen"""
-        # pylint: disable=undefined-loop-variable
         arr = self.font[char]
         width = arr[0]
         height = arr[1]
@@ -495,9 +472,7 @@ class GFX:
                     try:
                         self._place_char(x_roll, y_roll, char, size, *args, **kwargs)
                     except KeyError:
-                        self._place_char(
-                            x_roll, y_roll, "?CHAR?", size, *args, **kwargs
-                        )
+                        self._place_char(x_roll, y_roll, "?CHAR?", size, *args, **kwargs)
                         char = "?CHAR?"
 
                     x_roll += size * self.font[char][0]
@@ -528,5 +503,3 @@ class GFX:
         """
         self.text_bkgnd_args = args
         self.text_bkgnd_kwargs = kwargs
-
-    # pylint: enable=too-many-arguments

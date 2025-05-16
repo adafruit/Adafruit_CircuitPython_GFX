@@ -7,10 +7,10 @@
 # Author: Tony DiCola
 # License: MIT License (https://opensource.org/licenses/MIT)
 import time
+
 import gfx
 import ili9341
 import machine
-
 
 # Setup hardware SPI at 32mhz on ESP8266 MicroPython.
 spi = machine.SPI(1, baudrate=32000000)

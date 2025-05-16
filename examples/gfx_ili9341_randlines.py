@@ -7,6 +7,7 @@
 # Author: Tony DiCola
 # License: MIT License (https://opensource.org/licenses/MIT)
 import time
+
 import gfx
 import ili9341
 import machine
@@ -19,9 +20,7 @@ def randrange(min_value, max_value):
     # int values at most.
     magnitude = abs(max_value - min_value)
     randbytes = uos.urandom(4)
-    offset = int(
-        (randbytes[3] << 24) | (randbytes[2] << 16) | (randbytes[1] << 8) | randbytes[0]
-    )
+    offset = int((randbytes[3] << 24) | (randbytes[2] << 16) | (randbytes[1] << 8) | randbytes[0])
     offset %= magnitude + 1  # Offset by one to allow max_value to be included.
     return min_value + offset
 
